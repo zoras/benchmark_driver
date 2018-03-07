@@ -35,6 +35,12 @@ config = BenchmarkDriver::Config.new.tap do |c|
         executables << BenchmarkDriver::Rbenv.parse_spec(version)
       end
     end
+    o.on('--asdf [VERSIONS]', 'Ruby executables in asdf (x.x.x,arg1,...;y.y.y,arg2,...;...)') do |r|
+      abort '--asdf must take argument but not given' if r.nil?
+      r.split(';').each do |version|
+        executables << BenchmarkDriver::Asdf.parse_spec(version)
+      end
+    end
     o.on('--repeat-count [NUM]', 'Try benchmark NUM times and use the fastest result (TODO)') do |v|
       begin
         c.repeat_count = Integer(v)
